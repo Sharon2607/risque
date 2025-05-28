@@ -19,7 +19,7 @@ def tester_stationnarite_macro(df_macro, colonnes=None, verbose=True):
                 print(f"{col} : p-value = {p_value:.4f} → {etat}")
         except Exception as e:
             resultats[col] = None
-            print(f"{col} : ❌ Erreur ADF → {e}")
+            print(f"{col} : Erreur ADF → {e}")
     return resultats
 
 def tester_transformations_ipl(df, col="IPL_diff1"):
@@ -51,7 +51,7 @@ def tester_transformations_ipl(df, col="IPL_diff1"):
     print("\nRésultats ADF pour différentes transformations :")
     for k, p in resultats.items():
         if p is None:
-            print(f"{k}: ❌ Erreur")
+            print(f"{k}: Erreur")
         else:
             etat = "✅ Stationnaire" if p < 0.05 else "❌ Non stationnaire"
             print(f"{k}: p-value = {p:.4f} → {etat}")
@@ -63,7 +63,7 @@ def tester_stationnarite_segments(segment_df):
         try:
             serie = segment_i["Indicateur_moyen_Brut"].str.replace(",", ".").astype(float).dropna()
         except Exception as e:
-            print(f"\n❌ Erreur conversion Segment {i} : {e}")
+            print(f"\n Erreur conversion Segment {i} : {e}")
             continue
         print(f"\n🔎 Test ADF - Segment {i}")
         try:
@@ -71,7 +71,7 @@ def tester_stationnarite_segments(segment_df):
             etat = "✅ Stationnaire" if p_value < 0.05 else "❌ Non stationnaire"
             print(f"p-value = {p_value:.4f} → {etat}")
         except Exception as e:
-            print(f"⚠️ Erreur ADF pour le segment {i} : {e}")
+            print(f"Erreur ADF pour le segment {i} : {e}")
 
 def appliquer_hp_filter_segments(segment_df, segments_hp):
     for i in segments_hp:
@@ -82,7 +82,7 @@ def appliquer_hp_filter_segments(segment_df, segments_hp):
             segment_df.loc[segment_df["note_ref"] == i, "cycle_hp"] = cycle.values
             print(f"✅ HP filter appliqué au segment {i}")
         except Exception as e:
-            print(f"❌ Erreur pour le segment {i} : {e}")
+            print(f" Erreur pour le segment {i} : {e}")
     return segment_df
 
 def tester_stationnarite_hp_segments(segment_df, segments_hp):
@@ -90,11 +90,11 @@ def tester_stationnarite_hp_segments(segment_df, segments_hp):
         serie_hp = segment_df.loc[segment_df["note_ref"] == i, "cycle_hp"].dropna()
         print(f"\n🔎 Test ADF sur cycle HP - Segment {i}")
         if len(serie_hp) < 10:
-            print("⚠️ Trop peu de données pour appliquer ADF")
+            print("Trop peu de données pour appliquer ADF")
             continue
         try:
             p_value = adfuller(serie_hp, regression="ct")[1]
             etat = "✅ Stationnaire" if p_value < 0.05 else "❌ Non stationnaire"
             print(f"p-value = {p_value:.4f} → {etat}")
         except Exception as e:
-            print(f"❌ Erreur ADF pour le segment {i} : {e}")
+            print(f"Erreur ADF pour le segment {i} : {e}")
