@@ -65,7 +65,7 @@ def enrichir_macro_scenario(df):
 def predict_all_models_scenarios(*, df_raw, top_features_dict, scenarios=["CENT", "PESS", "OPT"], model_dir="models"):
     results = {}
     for scenario in scenarios:
-        print(f"\n🔮 Scénario : {scenario}")
+        print(f"\n Scénario : {scenario}")
         df_prepared = prepare_scenario(df_raw, scenario)
         df_enriched = enrichir_variables_macro(df_prepared)
 
@@ -93,9 +93,9 @@ def predict_all_models_scenarios(*, df_raw, top_features_dict, scenarios=["CENT"
                 df_result["CCF_OLS"] = y_pred_ols[:len(idx_common)]
                 scenario_results[seg] = df_result
 
-                print(f"✅ Segment {seg} – {len(idx_common)} prédictions")
+                print(f"Segment {seg} – {len(idx_common)} prédictions")
 
-                # === 🔽 PLOT ET SAUVEGARDE 🔽 ===
+                # === PLOT ET SAUVEGARDE  ===
                 fig, ax = plt.subplots(figsize=(10, 4))
                 ax.plot(df_result["date"], df_result["CCF_RF"], label="RF", linestyle="-", marker="x")
                 ax.plot(df_result["date"], df_result["CCF_OLS"], label="OLS", linestyle="--", marker="o")
@@ -108,6 +108,6 @@ def predict_all_models_scenarios(*, df_raw, top_features_dict, scenarios=["CENT"
                 save_plot(fig, name=f"{scenario}_Segment_{seg}_predictions")
 
             except Exception as e:
-                print(f"❌ Segment {seg} – erreur : {e}")
+                print(f"Segment {seg} – erreur : {e}")
         results[scenario] = scenario_results
     return results
