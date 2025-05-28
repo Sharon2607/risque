@@ -43,7 +43,7 @@ def enrichir_variables_macro(df):
 
 
     df = df.dropna().reset_index(drop=True)
-    print(f"🧪 Données enrichies : {df.shape[1]} variables disponibles.")
+    print(f"Données enrichies : {df.shape[1]} variables disponibles.")
     return df
 
 def select_features_via_random_forest(df, target_col="Indicateur_moyen_Brut", n_estimators=100):
@@ -53,5 +53,5 @@ def select_features_via_random_forest(df, target_col="Indicateur_moyen_Brut", n_
     model = RandomForestRegressor(n_estimators=n_estimators, random_state=0)
     selector = SelectFromModel(model).fit(X, y)
     selected_vars = list(X.columns[selector.get_support()])
-    print(f"🎯 Variables sélectionnées ({len(selected_vars)}):", selected_vars)
+    print(f"Variables sélectionnées ({len(selected_vars)}):", selected_vars)
     return selected_vars
